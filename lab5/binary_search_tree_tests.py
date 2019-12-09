@@ -1,0 +1,152 @@
+import unittest
+from binary_search_tree import *
+
+class TestLab4(unittest.TestCase):
+
+    def test_simple(self):
+        bst = BinarySearchTree()
+        self.assertTrue(bst.is_empty())
+        bst.insert(10, 'stuff')
+        self.assertTrue(bst.search(10))
+        self.assertEqual(bst.find_min(), (10, 'stuff'))
+        bst.insert(10, 'other')
+        self.assertEqual(bst.find_max(), (10, 'other'))
+        self.assertEqual(bst.tree_height(), 0)
+        self.assertEqual(bst.inorder_list(), [10])
+        bst.insert(5, "Emily")
+        bst.insert(12, "Serina")
+        self.assertEqual(bst.tree_height(), 1)
+        bst.insert(1, "Dennis")
+        self.assertEqual(bst.tree_height(), 2)
+        self.assertEqual(bst.inorder_list(), [1, 5, 10, 12])
+        self.assertEqual(bst.find_min(), (1, "Dennis"))
+        bst.insert(27, "a")
+        bst.insert(18, "b")
+        bst.insert(17, "c")
+        bst.insert(20, "d")
+        bst.insert(19, "e")
+        self.assertEqual(bst.search(2), False)
+        self.assertEqual(bst.tree_height(), 5)
+        self.assertEqual(bst.inorder_list(), [1, 5, 10, 12, 17, 18, 19, 20, 27])
+        self.assertEqual(bst.preorder_list(), [10, 5, 1, 12, 27, 18, 17, 20, 19])
+        self.assertEqual(bst.find_max(), (27, 'a'))
+        self.assertEqual(bst.delete(2), False)
+        self.assertEqual(bst.delete(12), True)
+        self.assertEqual(bst.tree_height(), 5)
+        self.assertEqual(bst.search(27), True)
+        self.assertEqual(bst.search(19), True)
+        self.assertEqual(bst.delete(10), True)
+        self.assertEqual(bst.tree_height(), 5)
+        self.assertEqual(bst.search(1), True)
+        self.assertEqual(bst.search(27), True)
+        self.assertEqual(bst.delete(19), True)
+        self.assertFalse(bst.search(19))
+        self.assertEqual(bst.tree_height(), 4)
+        self.assertEqual(bst.delete(1), True)
+
+    def test_1(self):
+        bst = BinarySearchTree()
+        self.assertTrue(bst.is_empty())
+        bst.insert(10, 'stuff')
+        self.assertEqual(bst.preorder_list(), [10])
+        self.assertTrue(bst.delete(10))
+        self.assertEqual(bst.tree_height(), None)
+
+    def test_2(self):
+        bst = BinarySearchTree()
+        self.assertTrue(bst.is_empty())
+        bst.insert(10, 'stuff')
+        bst.insert(2, 'hi')
+        self.assertFalse(bst.is_empty())
+        self.assertTrue(bst.delete(2))
+        self.assertEqual(bst.tree_height(), 0)
+
+    def test_3(self):
+        bst = BinarySearchTree()
+        self.assertEqual(bst.find_min(), None)
+        self.assertEqual(bst.find_max(), None)
+        self.assertTrue(bst.is_empty())
+        bst.insert(10, 'stuff')
+        bst.insert(2, 'hi')
+        self.assertTrue(bst.delete(10))
+        self.assertEqual(bst.tree_height(), 0)
+
+    def test_4(self):
+        bst = BinarySearchTree()
+        self.assertTrue(bst.is_empty())
+        bst.insert(10, 'stuff')
+        bst.insert(12, 'hi')
+        self.assertTrue(bst.delete(12))
+        self.assertEqual(bst.tree_height(), 0)
+
+    def test_5(self):
+        bst = BinarySearchTree()
+        bst.insert(27, "a")
+        bst.insert(18, "b")
+        bst.insert(17, "c")
+        bst.insert(20, "d")
+        bst.insert(19, "e")
+        bst.insert(100,"f")
+        bst.insert(50, "g")
+        self.assertEqual(bst.delete(18), True)
+        bst.insert(62, "h")
+        bst.insert(64, "i")
+        self.assertEqual(bst.tree_height(), 4)
+        self.assertEqual(bst.delete(62), True)
+        self.assertEqual(bst.tree_height(), 3)
+        self.assertFalse(bst.check_no_grandchildren(bst.root))
+
+    def test_6(self):
+        bst = BinarySearchTree()
+        bst.insert(1, "a")
+        bst.insert(2, "a")
+        bst.insert(3, "a")
+        bst.insert(4, "a")
+        bst.insert(5, "a")
+        self.assertEqual(bst.tree_height(), 4)
+        bst.delete(3)
+        self.assertEqual(bst.tree_height(), 3)
+        bst.delete(1)
+
+    def test_7(self):
+        bst = BinarySearchTree()
+        self.assertEqual(bst.search(99), False)
+        bst.insert(5, "a")
+        bst.insert(4, "a")
+        bst.insert(3, "a")
+        bst.insert(2, "a")
+        bst.insert(1, "a")
+        self.assertEqual(bst.tree_height(), 4)
+        bst.delete(3)
+        self.assertEqual(bst.tree_height(), 3)
+
+    def test_8(self):
+        bst = BinarySearchTree()
+        self.assertEqual(bst.inorder_list(), [])
+        self.assertEqual(bst.preorder_list(), [])
+        self.assertEqual(bst.delete(7), False)
+        self.assertEqual(bst.tree_height(), None)
+        bst.insert(10, "a")
+        bst.insert(7, "a")
+        bst.insert(8, "a")
+        bst.insert(3, "a")
+        bst.insert(2, "a")
+        bst.insert(4, "a")
+        bst.insert(5, "a")
+        bst.delete(7)
+
+    def test_delete(self):
+        bst = BinarySearchTree()
+        bst.insert(30, "a")
+        bst.insert(40, "a")
+        bst.insert(35, "a")
+        bst.insert(50, "a")
+        bst.insert(60, "a")
+        bst.delete(40)
+        self.assertEqual(bst.inorder_list(), [30,35,50,60])
+
+
+
+
+if __name__ == '__main__': 
+    unittest.main()
